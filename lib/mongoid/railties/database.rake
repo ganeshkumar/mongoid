@@ -163,6 +163,53 @@ namespace :db do
       end
     end
 
+
+    require "pp"
+    desc "copy the databases"
+    task :copy_db => :environment do
+      print "Source Database Name: "
+      source_db = STDIN.gets
+      print "Destination Database Name: "
+      destination_db = STDIN.gets
+      debugger
+      db_names = Mongo::Connection.new.database_names
+      if !db_names.include?(source_db)
+        print "Unable to find the source database #{source_db}"
+      elsif !db_names.include?(destination_db)
+        puts "Unable to find the destination database #{destination_db}"
+      end
+
+      pp "came here"
+
+
+
+#     collection_names.each do |collection_name|
+#        collection = Mongoid.master.collection(collection_name)
+#        new_collection = collection.db["#{collection_name}_new"]
+#
+#        # swap collection to _old
+#        puts "Moving #{collection.name} to #{collection_name}_old"
+#        collection.db["#{collection_name}_old"].drop
+#
+#        begin
+#          collection.rename("#{collection_name}_old")
+#        rescue Exception => e
+#          puts "Unable to rename database #{collection_name} to #{collection_name}_old"
+#          puts "reason: #{e.message}\n\n"
+#        end
+#
+#        # swap _new to collection
+#        puts "Moving #{new_collection.name} to #{collection_name}\n\n"
+#
+#        begin
+#          new_collection.rename(collection_name)
+#        rescue Exception => e
+#          puts "Unable to rename database #{new_collection.name} to #{collection_name}"
+#          puts "reason: #{e.message}\n\n"
+#        end
+#      end
+      end
+
     ########
     # TODO: lots more useful db tasks can be added here. stuff like copyDatabase, etc
     ########
